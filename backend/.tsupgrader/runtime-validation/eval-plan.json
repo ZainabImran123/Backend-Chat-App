@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-11-03T10:00:00Z",
+  "generatedOnPlatform": "win32",
+  "projectType": "server",
+  "setup": [],
+  "assertions": [
+    {
+      "name": "backend-tests-pass",
+      "kind": "process",
+      "command": "npm",
+      "args": ["test"],
+      "verificationMethod": "test-results",
+      "expected": "0",
+      "timeoutSeconds": 120
+    },
+    {
+      "name": "socket-module-parses",
+      "kind": "process",
+      "command": "node",
+      "args": ["--check", "src/realtime/chat-socket.js"],
+      "verificationMethod": "exit-code",
+      "expected": "0"
+    },
+    {
+      "name": "chat-health-responds",
+      "kind": "http-probe",
+      "startCommand": "node",
+      "startArgs": [
+        "--input-type=module",
+        "-e",
+        "import http from 'node:http'; import app from './src/app.js'; http.createServer(app).listen(31401, '127.0.0.1')"
+      ],
+      "env": {
+        "CHAT_MONGODB_URI": ""
+      },
+      "url": "http://127.0.0.1:31401/api/health",
+      "verificationMethod": "http-status",
+      "expected": "200",
+      "timeoutSeconds": 30
+    },
+    {
+      "name": "chat-routes-require-database",
+      "kind": "http-probe",
+      "startCommand": "node",
+      "startArgs": [
+        "--input-type=module",
+        "-e",
+        "import http from 'node:http'; import app from './src/app.js'; http.createServer(app).listen(31402, '127.0.0.1')"
+      ],
+      "env": {
+        "CHAT_MONGODB_URI": ""
+      },
+      "url": "http://127.0.0.1:31402/api/conversations",
+      "verificationMethod": "http-status",
+      "expected": "503",
+      "timeoutSeconds": 30
+    }
+  ]
+}

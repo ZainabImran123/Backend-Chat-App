@@ -1,0 +1,127 @@
+{
+  "planHash": "2e197a34c8da2d23661639101d67f049242a78477efb8d95437d903e11a2f291",
+  "phase": "standalone",
+  "recordedAtUtc": "2026-11-03T10:48:45.8985947Z",
+  "retryCount": 2,
+  "resetBaseline": false,
+  "complete": true,
+  "result": {
+    "setupSucceeded": true,
+    "setupDurationMs": 0,
+    "setupFailureOutput": null,
+    "assertions": [
+      {
+        "name": "backend-tests-pass",
+        "kind": "process",
+        "verificationMethod": "test-results",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "\r\n\u003E little-hello-api@1.0.0 test\r\n\u003E node --test --test-reporter=tap\r\n\r\nTAP version 13\r\n# Subtest: health reports the chat API is available\r\nok 1 - health reports the chat API is available\r\n  ---\r\n  duration_ms: 187.6435\r\n  type: \u0027test\u0027\r\n  ...\r\n# Subtest: chat routes fail closed until the chat database is connected\r\nok 2 - chat routes fail closed until the chat database is connected\r\n  ---\r\n  duration_ms: 11.505\r\n  type: \u0027test\u0027\r\n  ...\r\n1..2\r\n# tests 2\r\n# suites 0\r\n# pass 2\r\n# fail 0\r\n# cancelled 0\r\n# skipped 0\r\n# todo 0\r\n# duration_ms 3413.7417\r\n",
+        "durationMs": 5696,
+        "testResults": {
+          "testFramework": "unknown",
+          "runnerDetectedFrom": "none",
+          "testsTotal": 0,
+          "testsPassed": 0,
+          "testsFailed": 0,
+          "testsSkipped": 0,
+          "parseFailed": true
+        }
+      },
+      {
+        "name": "socket-module-parses",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "",
+        "durationMs": 256
+      },
+      {
+        "name": "chat-health-responds",
+        "kind": "http-probe",
+        "verificationMethod": "http-status",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "HTTP 200\n{\u0022status\u0022:\u0022ok\u0022,\u0022databaseConfigured\u0022:false,\u0022databaseConnected\u0022:false}",
+        "durationMs": 2398
+      },
+      {
+        "name": "chat-routes-require-database",
+        "kind": "http-probe",
+        "verificationMethod": "http-status",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "HTTP 503\n{\u0022message\u0022:\u0022Chat database is not configured or connected.\u0022}",
+        "durationMs": 2078
+      }
+    ],
+    "executions": [
+      {
+        "source": "backend-tests-pass",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npm.CMD",
+        "args": [
+          "test"
+        ],
+        "cwd": "C:\\Users\\HP\\Documents\\Chat App\\backend",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32"
+      },
+      {
+        "source": "socket-module-parses",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\node.EXE",
+        "args": [
+          "--check",
+          "src/realtime/chat-socket.js"
+        ],
+        "cwd": "C:\\Users\\HP\\Documents\\Chat App\\backend",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32"
+      },
+      {
+        "source": "chat-health-responds",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\node.EXE",
+        "args": [
+          "--input-type=module",
+          "-e",
+          "import http from \u0027node:http\u0027; import app from \u0027./src/app.js\u0027; http.createServer(app).listen(31401, \u0027127.0.0.1\u0027)"
+        ],
+        "cwd": "C:\\Users\\HP\\Documents\\Chat App\\backend",
+        "env": {
+          "CHAT_MONGODB_URI": ""
+        },
+        "prependPath": [],
+        "platform": "win32"
+      },
+      {
+        "source": "chat-routes-require-database",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\node.EXE",
+        "args": [
+          "--input-type=module",
+          "-e",
+          "import http from \u0027node:http\u0027; import app from \u0027./src/app.js\u0027; http.createServer(app).listen(31402, \u0027127.0.0.1\u0027)"
+        ],
+        "cwd": "C:\\Users\\HP\\Documents\\Chat App\\backend",
+        "env": {
+          "CHAT_MONGODB_URI": ""
+        },
+        "prependPath": [],
+        "platform": "win32"
+      }
+    ]
+  }
+}
