@@ -30,7 +30,9 @@ cd frontend
 npm run dev
 ```
 
-Open the Vite URL (normally `http://localhost:5173`). Socket.IO's browser client is served by the backend at `/socket.io/socket.io.js` and proxied by Vite. Keep the frontend and API on the configured origin or set `FRONTEND_ORIGIN` and `VITE_API_BASE_URL` for your deployment.
+Open the Vite URL (normally `http://localhost:5173`). Socket.IO's browser client is served by the backend at `/socket.io/socket.io.js` and proxied by Vite. Keep the frontend and API on the configured origin or set `FRONTEND_ORIGIN` and `VITE_API_BASE_URL` for your deployment. `VITE_API_BASE_URL` may be the backend origin or its `/api` URL; the frontend normalizes either form.
+
+The Vercel configuration exposes the HTTP API through a serverless handler. Set `CHAT_MONGODB_URI`, `CHAT_JWT_SECRET`, and `FRONTEND_ORIGIN` in the backend deployment's environment, and set `VITE_API_BASE_URL` in the frontend deployment to the backend origin or its `/api` URL. Vercel serverless functions do not provide the persistent Socket.IO service or durable local attachment storage used by the full chat app; deploy the long-running backend to a host that supports those features for real-time chat and persistent uploads.
 
 On Windows PowerShell, if script execution policy blocks `npm`, use `npm.cmd` for the commands above.
 

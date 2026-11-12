@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { decryptText, deriveConversationKey, encryptText } from "./encryption.js"
 
-const API = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/$/, "")
+const configuredApiBase = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || "/api"
+const normalizedApiBase = configuredApiBase.replace(/\/+$/, "")
+const API = normalizedApiBase.endsWith("/api") ? normalizedApiBase : `${normalizedApiBase}/api`
 
 async function request(path, options = {}) {
   const form = options.body instanceof FormData
